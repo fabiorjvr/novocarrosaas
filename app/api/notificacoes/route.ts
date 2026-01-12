@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServiceSupabase } from '@/lib/supabase';
 import { getAuthUser, unauthorized } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 // GET: Listar notificações (histórico ou pendentes)
 export async function GET(req: NextRequest) {
     try {

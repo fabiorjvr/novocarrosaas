@@ -3,6 +3,8 @@ import { getServiceSupabase } from '@/lib/supabase';
 import bcrypt from 'bcryptjs';
 import { signToken } from '@/lib/jwt';
 
+export const dynamic = 'force-dynamic';
+
 // Validação de email
 const isValidEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

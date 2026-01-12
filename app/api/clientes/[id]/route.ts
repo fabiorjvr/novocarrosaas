@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServiceSupabase } from '@/lib/supabase';
 import { getAuthUser, unauthorized, badRequest } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 // GET: Buscar cliente por ID + Histórico
 export async function GET(
     req: NextRequest,
