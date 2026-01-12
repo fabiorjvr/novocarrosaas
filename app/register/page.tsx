@@ -15,9 +15,10 @@ export default function RegisterPage() {
   const handleGoogleLogin = async () => {
     setIsLoading(true);
     try {
-      if (!supabase) throw new Error('Cliente Supabase não inicializado');
+      const supabaseClient = supabase();
+      if (!supabaseClient) throw new Error('Cliente Supabase não inicializado');
 
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { error } = await supabaseClient.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: `${window.location.origin}/auth/callback`,

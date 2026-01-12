@@ -21,13 +21,14 @@ export default function OnboardingPage() {
 
   useEffect(() => {
     async function checkUser() {
-      if (!supabase) return;
-      const { data: { user } } = await supabase.auth.getUser();
+      const supabaseClient = supabase();
+      if (!supabaseClient) return;
+      const { data: { user } } = await supabaseClient.auth.getUser();
       if (!user) {
         router.push('/login');
         return;
       }
-      
+
       // Pre-fill email/name if available
       setFormData(prev => ({
         ...prev,
@@ -66,12 +67,13 @@ export default function OnboardingPage() {
     setSaving(true);
 
     try {
-      if (!supabase) throw new Error('Cliente Supabase não inicializado');
-      const { data: { user } } = await supabase.auth.getUser();
+      const supabaseClient = supabase();
+      if (!supabaseClient) throw new Error('Cliente Supabase não inicializado');
+      const { data: { user } } = await supabaseClient.auth.getUser();
       if (!user) throw new Error('Usuário não autenticado');
 
       // Atualizar perfil da oficina
-      const { error } = await supabase
+      const { error } = await supabaseClient
         .from('oficinas')
         .update({
           nome: formData.nome_fantasia, // Mapeando para coluna existente 'nome'

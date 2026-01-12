@@ -17,9 +17,10 @@ export default function LoginPage() {
 
   useEffect(() => {
     const checkUser = async () => {
-      if (!supabase) return;
+      const supabaseClient = supabase();
+      if (!supabaseClient) return;
 
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { user } } = await supabaseClient.auth.getUser();
       if (user) {
         setUser({
           id: user.id,
@@ -42,9 +43,10 @@ export default function LoginPage() {
   const handleGoogleLogin = async () => {
     setIsLoading(true);
     try {
-      if (!supabase) throw new Error('Cliente Supabase não inicializado');
+      const supabaseClient = supabase();
+      if (!supabaseClient) throw new Error('Cliente Supabase não inicializado');
 
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { error } = await supabaseClient.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: `${window.location.origin}/auth/callback`,
