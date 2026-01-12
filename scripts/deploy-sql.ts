@@ -14,9 +14,9 @@ async function run() {
   }
 
   // Connection String para Supabase (Direct Connection)
-  const connectionString = `postgres://postgres.elnnnkteevvkpahriiqx:${process.env.DATABASE_PASSWORD}@aws-0-sa-east-1.pooler.supabase.com:6543/postgres`;
+  const connectionString = `postgres://postgres.nrlvchnkplruprpskclg:${process.env.DATABASE_PASSWORD}@aws-0-sa-east-1.pooler.supabase.com:6543/postgres`;
   // Fallback: Tentar connection string direta se o pooler falhar (geralmente porta 5432 no db.project.supabase.co)
-  const directConnectionString = `postgres://postgres:${process.env.DATABASE_PASSWORD}@db.elnnnkteevvkpahriiqx.supabase.co:5432/postgres`;
+  const directConnectionString = `postgres://postgres:${process.env.DATABASE_PASSWORD}@db.nrlvchnkplruprpskclg.supabase.co:5432/postgres`;
 
   let client: Client;
 
