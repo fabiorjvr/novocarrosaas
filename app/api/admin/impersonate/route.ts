@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServiceSupabase } from '@/lib/supabase';
-import { signToken } from '@/lib/jwt';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,33 +25,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Oficina não encontrada' }, { status: 404 });
     }
 
-    // Gerar token JWT válido para esta oficina
-    const token = signToken({
-      id: oficina.id,
-      email: oficina.email
-    });
-
-    // Definir cookie de autenticação
-    const response = NextResponse.json({
-      success: true,
-      redirectUrl: '/dashboard',
-      oficina: {
-        id: oficina.id,
-        nome: oficina.nome,
-        email: oficina.email
-      }
-    });
-
-    // Usar o mesmo nome de cookie que o resto da app: 'token'
-    response.cookies.set('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-      maxAge: 60 * 60 * 24 // 1 dia
-    });
-
-    return response;
+    // Impersonate foi desabilitado na migração para OAuth
+    // Usuários devem fazer login com Google OAuth diretamente
+    return NextResponse.json({
+      error: 'Funcionalidade de impersonate desabilitada na migração para Google OAuth',
+      success: false
+    }, { status: 400 });
 
   } catch (error: any) {
     console.error('Erro no impersonate:', error);

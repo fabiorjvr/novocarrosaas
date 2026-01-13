@@ -1,15 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyToken, TokenPayload } from './jwt';
+import { createClient } from '@supabase/supabase-js';
+
+interface TokenPayload {
+  id: string;
+  email: string;
+}
 
 export async function getAuthUser(req: NextRequest): Promise<TokenPayload | null> {
-  const token = req.cookies.get('token')?.value;
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
 
-  if (!token) {
+  const { data: { user }, error } = await supabase.auth.getUser();
+
+  if (error || !user) {
     return null;
   }
 
-  const decoded = verifyToken(token);
-  return decoded;
+  return {
+    id: user.id,
+    email: user.email || ''
+  };
 }
 
 export function unauthorized(message: string = 'Não autorizado'): NextResponse {
